@@ -18,6 +18,7 @@ const Route = use('Route')
 Route.group(() => {
   Route.post('login', 'SessionController.login')
   Route.post('login/resetpassword', 'UserController.resetpassword')
+  Route.post('loginForm', 'UserController.login')
 
   Route.post('register', 'UserController.register');
 })

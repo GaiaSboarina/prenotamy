@@ -1,4 +1,5 @@
 import Main from "@/views/Main";
+import FormLogin from "@/views/FormLogin";
 import RouterView from "@/views/RouterView";
 
 const routes = [
@@ -11,9 +12,17 @@ const routes = [
     component: Main,
   },
   {
+    path: "/formLogin",
+    name: "",
+    meta: {
+      requiresAuth: false 
+    },
+    component: FormLogin
+  },
+    {
     path: '**',
     redirect: "/"
-  }
+  },
 ];
 
 export { routes };
