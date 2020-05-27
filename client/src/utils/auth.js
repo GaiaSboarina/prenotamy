@@ -73,17 +73,17 @@ function isUserEnabled() {
     return roleNeedsEnabled[userRoleCode] ? user.enabled : true;
   }
 
+  console.log(user);
+
   return false;
 }
 
 function getProfile() {
   var user = JSON.parse(localStorage.getItem("user"));
-
+  
   if (user == null || user == undefined || user == {} || user == []) {
     return null;
   }
-
-  return user;
 }
 
 function setProfile(user) {
@@ -104,10 +104,11 @@ function logout() {
   delete axios.defaults.headers.common["activerole"];
 }
 
-async function login(username, password) {
+async function login(email, password) {
+  console.log('Ma funzioni lo stesso?')
   let loginFormData = new FormData();
 
-  loginFormData.set("username", username);
+  loginFormData.set("email", email);
   loginFormData.set("password", password);
 
   let response = {
@@ -116,28 +117,41 @@ async function login(username, password) {
   };
 
   try {
-    response.data = await axios.post(LOGIN_URL, loginFormData);
-  } catch (e) {
-    response.error = e;
-    return response;
-  }
+
+    console.log('Qua ci arriva? Si')
+
+    localStorage.setItem(getToken(), data);
+
+    console.log('E qui?')
+
+    axios.defaults.headers.common["Authorization"] =
+      "Bearer" + data;
+      console.log('E qui?2')
+
+      response.data = await axios.get('/api/loginForm', {
+        email,
+        password
+      });
+      console.log('E qui?3')
+      data = await axios.post("/api/loginForm", {
+        email,
+        password
+      });
+      } catch (e) {
+        response.error = e;
+        console.log(e);
+        return response;
+      }
 
   let data = response.data.data;
 
-  if (!data.access_token) {
+  if (!data) {
     data.detail = "missing_token";
 
     return {
       error: data
     };
   }
-
-  localStorage.setItem("token", data.access_token);
-
-  axios.defaults.headers.common["Authorization"] =
-    "Bearer " + data.access_token;
-
-  response = await axios.get(API_URL + "/users/me");
 
   switch (response.status) {
     case 400:

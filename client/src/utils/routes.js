@@ -1,5 +1,6 @@
 import Main from "@/views/Main";
-import FormLogin from "@/views/FormLogin";
+import formLogin from "@/views/formLogin";
+import Dashboard from "@/views/Dashboard"
 import RouterView from "@/views/RouterView";
 
 const routes = [
@@ -7,7 +8,7 @@ const routes = [
     path: "/",
     name: "root",
     meta: {
-      requiresAuth: false 
+      requiresAuth: false
     },
     component: Main,
   },
@@ -15,11 +16,19 @@ const routes = [
     path: "/formLogin",
     name: "",
     meta: {
-      requiresAuth: false 
+      requiresAuth: false
     },
-    component: FormLogin
+    component: formLogin,
   },
-    {
+  {
+    path: "/dashboard",
+    name: "",
+    meta: {
+      requiresAuth: false
+    },
+    component: Dashboard,
+  },
+  {
     path: '**',
     redirect: "/"
   },

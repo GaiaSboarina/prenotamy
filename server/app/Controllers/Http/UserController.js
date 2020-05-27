@@ -5,6 +5,13 @@ const { validate } = use('Validator')
 
 class UserController {
 
+  async index({response, auth}) {
+    const user = await auth.getUser();
+    return response.status(201).json({
+      message: "entrato"
+    });
+  }
+
   async register({request, response}) {
     const rules = {
       username: "required|string|unique:users,username",
@@ -30,13 +37,14 @@ class UserController {
       surname: userData.surname,
       phone: userData.phone,
       email: userData.email,
-      password: userData.password,
+      password: userData.password
     })
 
     return response.status(201).json({
       message: "iscritto"
     })
   }
+  
   async login({request, auth}) {
     const {email, password} = request.all()
     const token = await auth.attempt(email, password)

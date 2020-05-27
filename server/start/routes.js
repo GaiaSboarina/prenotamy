@@ -21,6 +21,8 @@ Route.group(() => {
   Route.post('loginForm', 'UserController.login')
 
   Route.post('register', 'UserController.register');
+  Route.get('dashboard', 'UserController.index');
+  Route.get('loginForm', 'UserController.login');
 })
   .prefix("/api/");
 
